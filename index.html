@@ -32,7 +32,7 @@
     <!-- Header Area -->
     <header class="bg-gradient-to-r from-amber-600 to-orange-500 text-white shadow-lg">
         <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Welcome to MUSC Staff Portal</h1>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Welcome to Biochemistry Staff Portal</h1>
             <p class="text-amber-50 text-lg max-w-2xl">
                 Everything you need, gathered in one place. Explore HR services, research grants, IT systems, and facilities below.
             </p>
@@ -83,7 +83,7 @@
 
     <footer class="mt-20 border-t border-stone-200 bg-white py-8">
         <div class="max-w-6xl mx-auto px-4 text-center text-stone-400 text-sm">
-            <p id="copyrightText"></p>
+            <p><strong>Created by Kritsadapan Takkrathok</strong><br>Email: kritsadapan.tak@mahidol.ac.th<br>Last update: June 12, 2026</p>
         </div>
     </footer>
 
@@ -133,6 +133,29 @@
                 ]
             },
             {
+                id: 'undergrad',
+                title: 'Undergraduate',
+                icon: 'notebook-tabs',
+                items: [
+                    { name: 'MUSC TQF System', desc: 'Submit the course details and course reports', link: 'http://database.sc.mahidol/', icon: 'send' },
+                    { name: 'MU3/5 Templates', desc: 'Download the relevant templates', link: 'https://muaa.mahidol.ac.th/curriculum/', icon: 'notepad-text-dashed' },
+                    { name: 'Grade Submission System', desc: 'Submit students\' grades at the end of each course', link: 'https://grading.mahidol.ac.th/management', icon: 'book-open-check' },
+                    { name: 'Course Evaluation System', desc: 'View the students\' satisfaction level toward each course', link: 'https://evaluation.mahidol.ac.th/management/Unauthorize', icon: 'smile' }
+                ]
+            },
+            {
+                id: 'postgrad',
+                title: 'Postgraduate',
+                icon: 'graduation-cap',
+                items: [
+                    { name: 'MU3/5 Submission Folder', desc: 'Submit the course details and course reports', link: 'http://database.sc.mahidol/', icon: 'send' },
+                    { name: 'Grade Submission System', desc: 'Submit students\' grades at the end of each course', link: 'https://graduate.mahidol.ac.th/Programme-director/login.php', icon: 'book-open-check' },
+                    { name: 'Course Evaluation System', desc: 'View the students\' satisfaction level toward each course', link: 'https://graduate.mahidol.ac.th/Academic/CourseEvaluation/login.php', icon: 'smile' },
+                    { name: 'GR Form Approval', desc: 'Approve the thesis-related forms', link: 'https://graduate.mahidol.ac.th/Programme-director/login.php', icon: 'signature' },
+                    { name: 'Thesis Progress Submission', desc: 'Submit students\' thesis progress at the end of each semester', link: 'https://graduate.mahidol.ac.th/Programme-director/login.php', icon: 'loader' }
+                ]
+            },
+            {
                 id: 'facilities',
                 title: 'Training & Facilities',
                 icon: 'book-open',
@@ -156,9 +179,6 @@
         const noResults = document.getElementById('noResults');
         const noResultsText = document.getElementById('noResultsText');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
-
-        // Set Copyright Year
-        document.getElementById('copyrightText').innerText = `© ${new Date().getFullYear()} Faculty of Science, Mahidol University. Internal Staff Portal.`;
 
         // Render Tabs
         function renderTabs() {
