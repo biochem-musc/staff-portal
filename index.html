@@ -16,17 +16,15 @@
     <title>Biochemistry Staff Portal</title>
 
     <!-- Open Graph Tags (For LINE, Facebook, etc.) -->
-    <!-- This is the bold title in the chat -->
     <meta property="og:title" content="MUSCBC Staff Portal">
-    <!-- This is the small description text under the title -->
     <meta property="og:description" content="Welcome to the Biochemistry Staff Portal! Access all essential staff resources instantly.">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Hide scrollbar for tabs */
+        /* Hide scrollbar for elements if needed */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
@@ -46,14 +44,26 @@
 </head>
 <body class="min-h-screen bg-stone-50 font-sans text-stone-800 selection:bg-amber-200">
 
+    <!-- Mobile Navigation Sidebar Backdrop Overlay -->
+    <div id="sidebarOverlay" onclick="closeSidebar()" class="fixed inset-0 bg-stone-950/40 z-40 hidden backdrop-blur-sm lg:hidden transition-opacity duration-300"></div>
+
     <!-- Header Area -->
     <header class="bg-gradient-to-r from-amber-600 to-orange-500 text-white shadow-lg">
-        <div class="max-w-6xl mx-auto px-4 py-12 md:py-16">
+        <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
+            <!-- Mobile Menu Toggle Row -->
+            <div class="flex items-center justify-between lg:hidden mb-4">
+                <span class="font-bold tracking-wide text-amber-50 uppercase text-xs">Biochemistry Department</span>
+                <button onclick="openSidebar()" class="flex items-center space-x-2 bg-white/10 hover:bg-white/20 px-3.5 py-2 rounded-xl border border-white/25 transition-all text-white">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                    <span class="text-sm font-semibold">Menu</span>
+                </button>
+            </div>
+
             <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Welcome to Biochemistry Staff Portal</h1>
             <p class="text-amber-50 text-lg max-w-2xl">
                 Everything you need, gathered in one place. Explore HR services, research grants, IT systems, and facilities below.
             </p>
-            
+
             <!-- Search Bar -->
             <div class="mt-8 relative max-w-xl">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -69,50 +79,81 @@
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-8">
-        
-        <!-- Navigation Tabs Container -->
-        <div id="tabsContainer" class="flex overflow-x-auto pb-4 mb-6 space-x-2 scrollbar-hide">
-            <!-- Tabs will be injected here via JS -->
+    <!-- Main Container (Responsive Grid layout) -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8 items-start relative">
+
+            <!-- Navigation Sidebar (Sticky on Desktop, Drawer on Mobile) -->
+            <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-stone-200 transform -translate-x-full lg:transform-none lg:static lg:w-64 lg:bg-transparent lg:border-none transition-transform duration-300 ease-in-out flex flex-col p-6 lg:p-0 h-full lg:h-auto overflow-y-auto lg:overflow-visible">
+
+                <!-- Mobile Sidebar Header with Close Button -->
+                <div class="flex items-center justify-between lg:hidden mb-6 pb-4 border-b border-stone-100">
+                    <div class="flex items-center space-x-2">
+                        <div class="p-2 bg-amber-100 rounded-lg text-amber-700">
+                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-bold text-lg text-stone-800">Categories</span>
+                    </div>
+                    <button onclick="closeSidebar()" class="p-2 hover:bg-stone-100 rounded-lg transition-colors text-stone-500">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Section Label for Desktop -->
+                <div class="hidden lg:block mb-4 px-1">
+                    <span class="text-xs font-bold text-stone-400 uppercase tracking-widest">Portal Navigation</span>
+                </div>
+
+                <!-- Dynamic Navigation Tabs Container -->
+                <nav id="tabsContainer" class="space-y-1.5">
+                    <!-- Tabs will be injected here via JS -->
+                </nav>
+            </aside>
+
+            <!-- Content Area (Spans remaining width) -->
+            <main class="flex-1 w-full min-w-0">
+                <div id="contentContainer" class="space-y-12">
+                    <!-- Categories and Cards will be injected here via JS -->
+                </div>
+
+                <!-- No Results Area -->
+                <div id="noResults" class="hidden text-center py-20 px-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-stone-100 mb-4">
+                        <i data-lucide="search" class="w-8 h-8 text-stone-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-stone-700 mb-2">No results found</h3>
+                    <p class="text-stone-500 mb-6" id="noResultsText">We couldn't find any resources matching your search.</p>
+                    <button
+                        id="clearSearchBtn"
+                        class="px-6 py-2.5 bg-white border border-stone-200 rounded-xl text-stone-600 hover:bg-stone-50 transition-colors font-semibold shadow-sm inline-flex items-center space-x-2"
+                    >
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        <span>Clear Search</span>
+                    </button>
+                </div>
+            </main>
+
         </div>
+    </div>
 
-        <!-- Content Area -->
-        <div id="contentContainer" class="space-y-12">
-            <!-- Categories and Cards will be injected here via JS -->
-        </div>
-
-        <!-- No Results Area -->
-        <div id="noResults" class="hidden text-center py-20 px-4">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-stone-100 mb-4">
-                <i data-lucide="search" class="w-8 h-8 text-stone-400"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-stone-700 mb-2">No results found</h3>
-            <p class="text-stone-500" id="noResultsText">We couldn't find any resources matching your search.</p>
-            <button 
-                id="clearSearchBtn"
-                class="mt-6 px-6 py-2 bg-white border border-stone-200 rounded-xl text-stone-600 hover:bg-stone-50 transition-colors font-medium shadow-sm"
-            >
-                Clear Search
-            </button>
-        </div>
-
-    </main>
-
-    <footer class="mt-20 border-t border-stone-200 bg-white py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center text-stone-400 text-sm">
-            <p><strong>Created by Kritsadapan Takkrathok</strong><br>Email: kritsadapan.tak@mahidol.ac.th<br>Last update: June 12, 2026</p>
+    <!-- Footer Area -->
+    <footer class="mt-20 border-t border-stone-200 bg-white py-10">
+        <div class="max-w-7xl mx-auto px-4 text-center text-stone-400 text-sm">
+            <p class="mb-2"><strong>Created by Kritsadapan Takkrathok</strong></p>
+            <p class="text-stone-400 mb-4">Email: kritsadapan.tak@mahidol.ac.th<br>Last update: June 12, 2026</p>
+            <div class="w-12 h-1 bg-amber-200 mx-auto rounded"></div>
         </div>
     </footer>
 
     <script>
-        // Data Configuration
+        // Data Configuration (fully translated to English)
         const portalData = [
             {
                 id: 'it',
                 title: 'IT Systems',
                 icon: 'monitor',
                 items: [
-                    { name: 'MUSC Intranet Systems', desc: 'MUSC-Personal, MUSC-LEAVE, TQF Management, SmartExam, and e-Payroll', link: 'http://database.sc.mahidol/', icon: 'globe' },
+                    { name: 'MUSC Intranet Systems', desc: 'MUSC-Personal, MUSC-LEAVE, TQF Management, SmartExam, and e-Payroll', link: 'http://database.sc.mahidol/', icon: 'globe', isIntranet: true },
                     { name: 'MU Internet Account', desc: 'Request Internet Account (Fill form, print, and submit to Admin office)', link: 'https://myinternet.mahidol.ac.th/', icon: 'wifi' },
                     { name: 'E-Office', desc: 'System for receiving, sending, and tracking circular letters', link: 'https://eoffice.mahidol.ac.th/api/auth/login', icon: 'mail' }
                 ]
@@ -123,8 +164,8 @@
                 icon: 'users',
                 items: [
                     { name: 'HR Connect', desc: 'Request employment certificate and submit Flexible Benefit claims', link: 'https://muhr.mahidol.ac.th/HRconnect_new/', icon: 'heart-pulse' },
-                    { name: 'Staff ID Card', desc: 'Send a polite photo (plain background) to "Mod" to request an ID card', link: null, icon: 'badge-help', isInfo: true },
-                    { name: 'Government Official ID Card', desc: 'System to request a government official ID card', link: 'https://science.mahidol.ac.th/scad/?page_id=797', icon: 'file-text' },
+                    { name: 'Staff ID Card', desc: 'Send a polite photo (plain background) to "Mod" to request an ID card', link: null, icon: 'id-card-lanyard', isInfo: true },
+                    { name: 'Government Official ID Card', desc: 'System to request a government official ID card', link: 'https://science.mahidol.ac.th/scad/?page_id=797', icon: 'id-card' },
                     { name: 'Parking Permit', desc: 'Download parking permit application form', link: 'https://science.mahidol.ac.th/scad/wp-content/uploads/2023/02/ฟอร์มขอบัตรจอดรถ.pdf', icon: 'car' },
                     { name: 'MU Savings Cooperative', desc: 'Get the form and submit application at Ramathibodi branch', link: 'https://www.si.mahidol.ac.th/musaving/index.asp', icon: 'hand-coins' },
                     { name: 'Provident Fund', desc: 'Provident fund information for staff', link: 'https://science.mahidol.ac.th/scad/?page_id=1311', icon: 'credit-card' },
@@ -154,8 +195,8 @@
                 title: 'Undergraduate',
                 icon: 'notebook-tabs',
                 items: [
-                    { name: 'MUSC TQF System', desc: 'Submit the course details and course reports', link: 'http://database.sc.mahidol/', icon: 'send' },
-                    { name: 'MU3/5 Templates', desc: 'Download the relevant templates', link: 'https://muaa.mahidol.ac.th/curriculum/', icon: 'notepad-text-dashed' },
+                    { name: 'MUSC TQF System', desc: 'Submit the course details and course reports', link: 'http://database.sc.mahidol/', icon: 'send', isIntranet: true },
+                    { name: 'MU3/5 Templates', desc: 'Download the relevant templates', link: 'https://muaa.mahidol.ac.th/curriculum/', icon: 'notepad-text-dashed', isIntranet: true },
                     { name: 'Grade Submission System', desc: 'Submit students\' grades at the end of each course', link: 'https://grading.mahidol.ac.th/management', icon: 'book-open-check' },
                     { name: 'Course Evaluation System', desc: 'View the students\' satisfaction level toward each course', link: 'https://evaluation.mahidol.ac.th/management/Unauthorize', icon: 'smile' }
                 ]
@@ -165,7 +206,7 @@
                 title: 'Postgraduate',
                 icon: 'graduation-cap',
                 items: [
-                    { name: 'MU3/5 Submission Folder', desc: 'Submit the course details and course reports', link: 'http://database.sc.mahidol/', icon: 'send' },
+                    { name: 'MU3/5 Submission Folder', desc: 'Submit the course details and course reports', link: 'https://studentmahidolac-my.sharepoint.com/:f:/g/personal/kritsadapan_tak_mahidol_ac_th/IgBYRjqW-PntTZ0CF4XJfbjcAX-zYTkldIOrV1mlpN6svhM?e=rkW2UX', icon: 'send' },
                     { name: 'Grade Submission System', desc: 'Submit students\' grades at the end of each course', link: 'https://graduate.mahidol.ac.th/Programme-director/login.php', icon: 'book-open-check' },
                     { name: 'Course Evaluation System', desc: 'View the students\' satisfaction level toward each course', link: 'https://graduate.mahidol.ac.th/Academic/CourseEvaluation/login.php', icon: 'smile' },
                     { name: 'GR Form Approval', desc: 'Approve the thesis-related forms', link: 'https://graduate.mahidol.ac.th/Programme-director/login.php', icon: 'signature' },
@@ -179,8 +220,18 @@
                 items: [
                     { name: 'MUX (Online Courses & PDPA)', desc: 'PDPA and other university online training courses', link: 'https://mux.mahidol.ac.th/', icon: 'book-open' },
                     { name: 'About Biochemistry Dept.', desc: 'Information about the Biochemistry Department', link: 'https://biochemistry.sc.mahidol.ac.th/', icon: 'building-2' },
-                    { name: 'Room & Equipment Booking', desc: 'Room and equipment booking system (New staff contact K. Nadtaya Mongkol for account)', link: 'https://biochemistry.sc.mahidol.ac.th/bc-facilities/', icon: 'monitor' },
+                    { name: 'Room & Equipment Booking', desc: 'Room and equipment booking system (New staff contact K. Nadtaya Mongkol for account)', link: 'https://biochemistry.sc.mahidol.ac.th/bc-facilities/', icon: 'monitor', isIntranet: true },
                     { name: 'Sports Complex Membership', desc: 'Apply for Faculty of Science sports complex membership', link: 'https://science.mahidol.ac.th/scad/?page_id=1053', icon: 'activity' }
+                ]
+            },
+            {
+                id: 'ra',
+                title: 'For Research Assistants',
+                icon: 'book-open',
+                items: [
+                    { name: 'Work Agreement', desc: 'Equivalent to work contract for requesting the ID card and/or internet account', link: 'https://science.mahidol.ac.th/scad/wp-content/uploads/2022/08/บันทึกข้อตกลง-การแลกเปลี่ยน-การเชิญ-หรืออนุญาตให้ปฏิบัติงาน.pdf', icon: 'building-2' },
+                    { name: 'Staff ID Card', desc: 'Send a polite photo (plain background) to "Mod" to request an ID card', link: null, icon: 'id-card-lanyard', isInfo: true },
+                    { name: 'Internet Account', desc: 'Send the signed work agreement and one copy of national ID card', link: null, icon: 'wifi', isInfo: true }
                 ]
             }
         ];
@@ -196,28 +247,48 @@
         const noResults = document.getElementById('noResults');
         const noResultsText = document.getElementById('noResultsText');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-        // Render Tabs
+        // Mobile Sidebar Controls
+        window.openSidebar = function() {
+            sidebarOverlay.classList.remove('hidden');
+            // Small timeout to allow the transition classes to apply smoothly
+            setTimeout(() => {
+                sidebarOverlay.classList.add('opacity-100');
+                sidebar.classList.remove('-translate-x-full');
+            }, 10);
+            document.body.classList.add('overflow-hidden');
+        };
+
+        window.closeSidebar = function() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.remove('opacity-100');
+            setTimeout(() => {
+                sidebarOverlay.classList.add('hidden');
+            }, 300);
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        // Render Sidebar Navigation Tabs
         function renderTabs() {
-            if (searchQuery) {
-                tabsContainer.classList.add('hidden');
-                return;
-            }
-            tabsContainer.classList.remove('hidden');
-            
-            tabsContainer.innerHTML = portalData.map(category => `
-                <button 
-                    onclick="setActiveTab('${category.id}')"
-                    class="flex items-center whitespace-nowrap px-5 py-3 rounded-xl font-medium transition-all ${
-                        activeTab === category.id
-                            ? 'bg-amber-100 text-amber-800 shadow-sm border border-amber-200'
-                            : 'bg-white text-stone-600 hover:bg-stone-100 border border-transparent'
-                    }"
-                >
-                    <i data-lucide="${category.icon}" class="w-5 h-5 mr-2"></i>
-                    ${category.title}
-                </button>
-            `).join('');
+            tabsContainer.innerHTML = portalData.map(category => {
+                const isActive = !searchQuery && activeTab === category.id;
+                return `
+                    <button
+                        onclick="selectCategory('${category.id}')"
+                        class="flex items-center w-full px-4 py-3 rounded-xl font-medium transition-all text-sm group ${
+                            isActive
+                                ? 'bg-amber-500 text-white shadow-md shadow-amber-500/15'
+                                : 'text-stone-600 hover:bg-white hover:text-stone-950 hover:shadow-sm'
+                        }"
+                    >
+                        <i data-lucide="${category.icon}" class="w-5 h-5 mr-3 flex-shrink-0 transition-transform group-hover:scale-105"></i>
+                        <span class="truncate">${category.title}</span>
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
         }
 
         // Render Cards inside Content Area
@@ -228,8 +299,8 @@
                 const lowerQuery = searchQuery.toLowerCase();
                 dataToRender = portalData.map(category => ({
                     ...category,
-                    items: category.items.filter(item => 
-                        item.name.toLowerCase().includes(lowerQuery) || 
+                    items: category.items.filter(item =>
+                        item.name.toLowerCase().includes(lowerQuery) ||
                         item.desc.toLowerCase().includes(lowerQuery)
                     )
                 })).filter(category => category.items.length > 0);
@@ -252,36 +323,40 @@
             // Generate HTML for categories and cards
             contentContainer.innerHTML = dataToRender.map(category => `
                 <section class="animate-fade-in">
-                    ${searchQuery ? `
-                        <h2 class="text-xl font-semibold mb-6 flex items-center text-stone-700 border-b border-stone-200 pb-2">
-                            <i data-lucide="${category.icon}" class="w-5 h-5 text-amber-600 mr-2"></i>
-                            ${category.title}
-                        </h2>
-                    ` : ''}
-                    
+                    <h2 class="text-xl font-bold mb-6 flex items-center text-stone-800 border-b border-stone-200 pb-2.5">
+                        <i data-lucide="${category.icon}" class="w-5 h-5 text-amber-600 mr-2.5"></i>
+                        <span>${category.title}</span>
+                    </h2>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         ${category.items.map(item => `
                             <${item.isInfo ? 'div' : `a href="${item.link}" target="_blank" rel="noopener noreferrer"`}
-                                class="group relative flex flex-col p-6 bg-white rounded-2xl border border-stone-200 shadow-sm hover:shadow-xl transition-all duration-300 ${item.isInfo ? 'cursor-default' : 'cursor-pointer hover:-translate-y-1 hover:border-amber-300'}"
+                                class="group relative flex flex-col p-6 bg-white rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-md transition-all duration-300 ${item.isInfo ? 'cursor-default' : 'cursor-pointer hover:-translate-y-1 hover:border-amber-400'}"
                             >
                                 <div class="flex items-start justify-between mb-4">
                                     <div class="p-3 bg-amber-50 text-amber-600 rounded-xl group-hover:bg-amber-100 transition-colors">
                                         <i data-lucide="${item.icon}" class="w-6 h-6"></i>
                                     </div>
                                     ${!item.isInfo ? `
-                                        <i data-lucide="chevron-right" class="w-5 h-5 text-stone-300 group-hover:text-amber-500 transition-colors"></i>
+                                        <i data-lucide="chevron-right" class="w-5 h-5 text-stone-300 group-hover:text-amber-500 transition-transform group-hover:translate-x-0.5"></i>
                                     ` : ''}
                                 </div>
-                                <h3 class="text-lg font-semibold text-stone-800 mb-2 leading-snug group-hover:text-amber-700 transition-colors">
+                                <h3 class="text-lg font-bold text-stone-800 mb-2 leading-snug group-hover:text-amber-700 transition-colors">
                                     ${item.name}
                                 </h3>
                                 <p class="text-sm text-stone-500 leading-relaxed flex-grow">
                                     ${item.desc}
                                 </p>
                                 ${item.isInfo ? `
-                                    <div class="mt-4 pt-4 border-t border-stone-100 text-xs font-medium text-stone-400 uppercase tracking-wider flex items-center">
-                                        <i data-lucide="badge-help" class="w-3 h-3 mr-1"></i>
+                                    <div class="mt-4 pt-4 border-t border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider flex items-center">
+                                        <i data-lucide="badge-help" class="w-3.5 h-3.5 mr-1.5 text-amber-500"></i>
                                         Information Only
+                                    </div>
+                                ` : ''}
+                                ${item.isIntranet ? `
+                                    <div class="mt-4 pt-4 border-t border-stone-100 text-xs font-semibold text-stone-400 uppercase tracking-wider flex items-center">
+                                        <i data-lucide="shield-check" class="w-3.5 h-3.5 mr-1.5 text-amber-500"></i>
+                                        Intranet
                                     </div>
                                 ` : ''}
                             </${item.isInfo ? 'div' : 'a'}>
@@ -295,10 +370,13 @@
         }
 
         // Action Handlers
-        window.setActiveTab = function(tabId) {
+        window.selectCategory = function(tabId) {
+            searchQuery = '';
+            searchInput.value = '';
             activeTab = tabId;
             renderTabs();
             renderContent();
+            closeSidebar(); // Smoothly hides drawer on mobile
         };
 
         searchInput.addEventListener('input', (e) => {
